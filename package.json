@@ -1,25 +1,13 @@
 {
-  "name": "delivery-app-admin",
-  "version": "1.0.0",
-  "description": "Backend for Delivery App Admin Panel",
-  "main": "dist/server.js",
+  "name": "flx-delivry",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "dev": "nodemon src/server.ts",
-    "build": "tsc",
-    "start": "node dist/server.js",
-    "lint": "eslint . --ext .ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/F-Hospitality/Delivery-App-Admin.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/F-Hospitality/Delivery-App-Admin/issues"
-  },
-  "homepage": "https://github.com/F-Hospitality/Delivery-App-Admin#readme",
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-popover": "^1.1.6",
