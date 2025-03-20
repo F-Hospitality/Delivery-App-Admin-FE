@@ -28,9 +28,7 @@ const Sidebar = () => {
     { name: "Customers", icon: <Users size={20} />, path: "/admin/customers" },
     { name: "Riders", icon: <Truck size={20} />, path: "/admin/riders" },
     { name: "Analytics", icon: <BarChart size={20} />, path: "/admin/analytics" },
-    { name: "Campaigns", icon: <MessageSquare size={20} />, path: "/admin/campaigns" },
-    { name: "Coupons", icon: <Tag size={20} />, path: "/admin/coupons" },
-    { name: "Addons", icon: <PlusCircle size={20} />, path: "/admin/addons" },
+   
   ];
 
   const orderStatuses = [
@@ -121,17 +119,7 @@ const Sidebar = () => {
         ))}
       </nav>
 
-      {!isCollapsed && (
-        <>
-          <div className="px-4 mt-4">
-            <p className="text-gray-300 text-sm">ITEM MANAGEMENT</p>
-          </div>
-          <div className="px-4 mt-6">
-            <p className="text-gray-300 text-sm">MARKETING SECTION</p>
-          </div>
-        </>
-      )}
-
+  
       <div className="p-4 mt-auto">
         <button className="flex items-center w-full p-3 text-red-500 hover:bg-red-800/20 rounded-md">
           <LogOut size={20} />
