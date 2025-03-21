@@ -3,13 +3,8 @@ import { DataTable, DetailViewConfig, type ColumnDefinition } from "@/components
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { useState } from "react"
-import { Calendar, Filter, Plus, Search } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Calendar as CalendarComponent } from "@/components/ui/calendar"
-import { format } from "date-fns"
+import FilterBar, { DateRange } from '@/components/filter-bar'
+
 
 const RiderLayout = () => {
 
@@ -139,119 +134,51 @@ const RiderLayout = () => {
     },
   ]
 
+  const [filters, setFilters] = useState({
+    searchQuery: '',
+    dateRange: { from: undefined, to: undefined } as DateRange,
+    customerType: 'all',
+    status: 'all'
+  });
+
+  const handleFilterChange = (newFilters:any) => {
+    setFilters(prevFilters => {
+      if (JSON.stringify(prevFilters) === JSON.stringify(newFilters)) {
+        return prevFilters;
+      }
+      return newFilters;
+    });
+    
+  };
+
+
   return (
     <AdminLayout>
       <div className="container mx-auto p-6">
         <h1 className="text-xl font-semibold mb-5">Rider Management</h1>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-medium text-gray-800">Riders</h1>
-        <div className="flex gap-3">
-          <Button variant="outline" className="gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-              <polyline points="14 2 14 8 20 8" />
-            </svg>
-            Export
-          </Button>
-          <Button className="gap-2 bg-red-600 hover:bg-red-700">
-            <Plus className="h-5 w-5" />
-            Add Riders
-          </Button>
-        </div>
+    
       </div>
 
-      <div className="flex flex-wrap gap-3 mb-6">
-        <div className="relative flex-grow max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          <Input
-            placeholder="Search"
-            className="pl-10 pr-4 py-2 w-full"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline" className="gap-2 min-w-[240px]">
-              <Calendar className="h-4 w-4" />
-              {date.from && date.to
-                ? `${format(date.from, "d MMM")} - ${format(date.to, "d MMM yyyy")}`
-                : "Select date range"}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="ml-auto h-4 w-4 opacity-50"
-              >
-                <path d="m6 9 6 6 6-6" />
-              </svg>
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <CalendarComponent
-              mode="range"
-              selected={{
-                from: date.from || new Date(),
-                to: date.to || new Date(),
-              }}
-              onSelect={(range) => {
-                setDate({
-                  from: range?.from,
-                  to: range?.to,
-                })
-              }}
-              initialFocus
+      <div className="flex justify-between items-center my-8">
+            
+            <FilterBar
+              initialFilters={filters}
+              onFilterChange={handleFilterChange}
+              // You can customize which filters to show
+              showSearch={true}
+              showDateRange={true}
+              showCustomerType={true}
+              showStatus={true}
+              // You can also customize the options
+              customerTypeOptions={[
+                { value: 'all', label: 'All Types' },
+                { value: 'premium', label: 'Premium Users' },
+                // Custom options...
+              ]}
             />
-          </PopoverContent>
-        </Popover>
-
-        <Select value={customerType} onValueChange={setCustomerType}>
-          <SelectTrigger className="min-w-[180px]">
-            <SelectValue placeholder="All Customers" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Customers</SelectItem>
-            <SelectItem value="new">New Customers</SelectItem>
-            <SelectItem value="returning">Returning Customers</SelectItem>
-            <SelectItem value="vip">VIP Customers</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger className="min-w-[120px]">
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="active">Active</SelectItem>
-            <SelectItem value="inactive">Inactive</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Button variant="outline" className="gap-2">
-          <Filter className="h-4 w-4" />
-          Filter
-        </Button>
-      </div>
-
+            </div>
       <DataTable
         data={ridersData}
         columns={riderColumns}

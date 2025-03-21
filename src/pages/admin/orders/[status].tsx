@@ -1,12 +1,21 @@
+import { useState, useEffect } from 'react';
 import { useRouter } from "next/router";
-import {DataTable, type ColumnDefinition} from "@/components/data-table";
+import {DataTable, DetailViewConfig, type ColumnDefinition} from "@/components/data-table";
 import AdminLayout from "@/components/auth-layout";
+import FilterBar, { DateRange } from '@/components/filter-bar'
 import { toast } from "sonner"
 
 
 const OrderStatusPage = () => {
   const router = useRouter();
   const { status } = router.query; 
+
+  const [filters, setFilters] = useState({
+    searchQuery: '',
+    dateRange: { from: undefined, to: undefined } as DateRange,
+    customerType: 'all',
+    status: 'all'
+  });
 
   const statusString = Array.isArray(status) ? status[0] : status;
 
@@ -52,6 +61,16 @@ const OrderStatusPage = () => {
     },
   ]
 
+  const handleFilterChange = (newFilters:any) => {
+    setFilters(prevFilters => {
+      if (JSON.stringify(prevFilters) === JSON.stringify(newFilters)) {
+        return prevFilters;
+      }
+      return newFilters;
+    });
+    
+  };
+
 
 const orderColumns: ColumnDefinition[] = [
   {
@@ -89,6 +108,10 @@ const orderColumns: ColumnDefinition[] = [
   if (!statusString) {
     return <div>Loading...</div>;
   }
+  const ordersDetailConfig: DetailViewConfig = {
+    enabled: true,
+    title: (item: any) => `Order: ${item.id}`,
+  }
 
   const handleEdit = (item: any) => {
     toast(`Editing ${item.name || item.orderId}`)
@@ -99,12 +122,35 @@ const orderColumns: ColumnDefinition[] = [
   }
   return (
     <AdminLayout>
-      <span className="text-4xl font-semibold mb-5">{capitalizeFirstLetter(statusString)} Orders</span>
+      <span className="text-2xl font-semibold mb-5">{capitalizeFirstLetter(statusString)} Orders</span>
+
+      <div className="flex justify-between items-center my-8">
+            
+      <FilterBar
+        initialFilters={filters}
+        onFilterChange={handleFilterChange}
+        // You can customize which filters to show
+        showSearch={true}
+        showDateRange={true}
+        showCustomerType={true}
+        showStatus={true}
+        // You can also customize the options
+        customerTypeOptions={[
+          { value: 'all', label: 'All Types' },
+          { value: 'premium', label: 'Premium Users' },
+          // Custom options...
+        ]}
+      />
+      </div>
+       
+
+    
       <div className="mt-10">
       <DataTable
             data={ordersData}
             columns={orderColumns}
             tableType="orders"
+            detailView={ordersDetailConfig}
             onEdit={handleEdit}
             onDelete={handleDelete}
           />
