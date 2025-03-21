@@ -10,37 +10,30 @@ import {
   LogOut, 
   Menu, 
   BookOpen,
-  PlusCircle,
-  Tag,
-  MessageSquare
+ 
 } from "lucide-react";
 
-// Enhanced Sidebar Component with Order Statuses
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isOrdersExpanded, setIsOrdersExpanded] = useState(false);
   const router = useRouter();
 
   const menuItems = [
-    { name: "Dashboard", icon: <Home size={20} />, path: "/admin" },
-    { name: "Orders", icon: <Package size={20} />, path: "/admin/orders", isExpandable: true },
-    { name: "Inventory", icon: <BookOpen size={20} />, path: "/admin/inventory" },
-    { name: "Customers", icon: <Users size={20} />, path: "/admin/customers" },
-    { name: "Riders", icon: <Truck size={20} />, path: "/admin/riders" },
-    { name: "Analytics", icon: <BarChart size={20} />, path: "/admin/analytics" },
-   
+    { name: "Dashboard", icon: <Home size={20} />, path: "/control" },
+    { name: "Orders", icon: <Package size={20} />, path: "/control/orders", isExpandable: true },
+    { name: "Inventory", icon: <BookOpen size={20} />, path: "/control/inventory" },
   ];
 
   const orderStatuses = [
-    { name: "All", path: "/admin/orders" },
-    { name: "Pending", path: "/admin/orders/pending" },
-    { name: "Confirmed", path: "/admin/orders/confirmed" },
-    { name: "Cooking", path: "/admin/orders/cooking" },
-    { name: "Ready For Delivery", path: "/admin/orders/ready-for-delivery" },
-    { name: "Item On The Way", path: "/admin/orders/on-the-way" },
-    { name: "Delivered", path: "/admin/orders/delivered" },
-    { name: "Refunded", path: "/admin/orders/refunded" },
-    { name: "Scheduled", path: "/admin/orders/scheduled" },
+    { name: "All", path: "/control/orders" },
+    { name: "Pending", path: "/control/orders/pending" },
+    { name: "Confirmed", path: "/control/orders/confirmed" },
+    { name: "Cooking", path: "/control/orders/cooking" },
+    { name: "Ready For Delivery", path: "/control/orders/ready-for-delivery" },
+    { name: "Item On The Way", path: "/control/orders/on-the-way" },
+    { name: "Delivered", path: "/control/orders/delivered" },
+    { name: "Refunded", path: "/control/orders/refunded" },
+    { name: "Scheduled", path: "/control/orders/scheduled" },
   ];
 
   const handleOrdersClick = () => {
