@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { IconHome, IconPizza, IconHistory, IconSettings, IconLogout, IconShoppingCart } from '../components/icons/Icons';
 import { useCart } from '../contexts/CartContext';
 import Cart from './cart/Cart';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -13,9 +13,15 @@ export default function CustomerLayout({ children }: MainLayoutProps) {
   const [isCartOpen, setIsCartOpen] = useState(false);
     const { items } = useCart();
     const router = useRouter();
+    const pathname = usePathname();
+    const isMenuPage = pathname === '/customer/menu';
   return (
-    <div className="flex flex-col h-screen bg-gray-100">     
-     <button className='bg-[#B2151B] text-white px-4 py-2 rounded-md mb-8 cursor-pointer' onClick={() => router.back()}>Back</button>
+    <div className="flex flex-col h-screen bg-gray-100"> 
+
+    <div className='p-5'>
+    <button  className={`bg-[#B2151B] text-white px-6 py-2 rounded-md  cursor-pointer ${isMenuPage ? 'hidden' : ''}`} onClick={() => router.back()}>Back</button>
+
+      </div>    
 
 
       <main className="flex-1 overflow-auto pb-20">
