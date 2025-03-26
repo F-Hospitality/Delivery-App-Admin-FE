@@ -1,4 +1,4 @@
-import ControlLayout from "@/components/control-layout";
+import AdminLayout from "@/components/auth-layout";
 import {DataTable, DetailViewConfig, type ColumnDefinition} from "@/components/data-table";
 import Image from "next/image";
 import { useState } from "react"
@@ -6,7 +6,6 @@ import FilterBar, { DateRange } from '@/components/filter-bar'
 
 
 const InventoryLayout = () => {
-
 
     const inventoryData = [
         {
@@ -102,7 +101,7 @@ const InventoryLayout = () => {
         },
       ]
   return (
-    <ControlLayout>
+    <AdminLayout>
           <h2 className="text-xl font-semibold mb-4">Inventory Management</h2>
           <div className="container mx-auto p-6">
    
@@ -112,11 +111,17 @@ const InventoryLayout = () => {
             <FilterBar
               initialFilters={filters}
               onFilterChange={handleFilterChange}
+              // You can customize which filters to show
               showSearch={true}
               showDateRange={true}
               showCustomerType={true}
               showStatus={true}
-            
+              // You can also customize the options
+              customerTypeOptions={[
+                { value: 'all', label: 'All Types' },
+                { value: 'premium', label: 'Premium Users' },
+                // Custom options...
+              ]}
             />
             </div>
     
@@ -133,7 +138,7 @@ const InventoryLayout = () => {
           />
     </div>
        
-    </ControlLayout>
+    </AdminLayout>
   );
 };
 

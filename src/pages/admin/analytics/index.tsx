@@ -261,7 +261,7 @@ export default function AnalyticsDashboard() {
             <div className="flex items-center justify-between py-3 border-b">
               <div className="flex items-center">
                 <div className="h-12 w-12 rounded-lg bg-gray-200 mr-3 overflow-hidden">
-                  <img src="/api/placeholder/48/48" alt="Airpods Pro" />
+                  {/* <img src="" alt="Airpods Pro" /> */}
                 </div>
                 <span>Jollof Rice</span>
               </div>
@@ -272,7 +272,7 @@ export default function AnalyticsDashboard() {
             <div className="flex items-center justify-between py-3 border-b">
               <div className="flex items-center">
                 <div className="h-12 w-12 rounded-lg bg-gray-200 mr-3 overflow-hidden">
-                  <img src="/api/placeholder/48/48" alt="Macbook Pro" />
+                  {/* <img src="" alt="Macbook Pro" /> */}
                 </div>
                 <span>Beans</span>
               </div>
@@ -283,7 +283,7 @@ export default function AnalyticsDashboard() {
             <div className="flex items-center justify-between py-3">
               <div className="flex items-center">
                 <div className="h-12 w-12 rounded-lg bg-gray-200 mr-3 overflow-hidden">
-                  <img src="/api/placeholder/48/48" alt="Shoes Nike" />
+                  {/* <img src="" alt="Shoes Nike" /> */}
                 </div>
                 <span>Spaghetti</span>
               </div>

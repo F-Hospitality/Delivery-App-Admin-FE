@@ -57,7 +57,7 @@ const Sidebar = () => {
       </div>
 
       <div className="mt-6">
-        {!isCollapsed && <p className="px-4 text-gray-300 text-sm">ORDER SECTION</p>}
+        {!isCollapsed && <p className="px-4 text-gray-300 text-sm">CONTROL PANEL</p>}
       </div>
 
       <nav className="flex flex-col space-y-1 flex-grow mt-2 overflow-y-auto">
