@@ -4,15 +4,17 @@ import Image from "next/image";
 import { useState } from "react"
 import FilterBar, { DateRange } from '@/components/filter-bar'
 import { Input } from "@/components/ui/input"
+import { useTheme } from "@/contexts/ThemeContext"
 
 const InventoryLayout = () => {
+    const { theme } = useTheme();
     const [inventoryData, setInventoryData] = useState([
         {
           id: 1,
           name: "White soup",
           image: "/placeholder.svg?height=60&width=60",
           category: "Swallow",
-          price: "₦ 1,800",
+          price: `${theme.currency.symbol} 1,800`,
           recommended: true,
           status: 'available',
           portions: 50,
@@ -23,7 +25,7 @@ const InventoryLayout = () => {
           name: "Jollof Rice",
           image: "/placeholder.svg?height=60&width=60",
           category: "Rice",
-          price: "₦ 2,500",
+          price: `${theme.currency.symbol} 2,500`,
           recommended: false,
           status: 'low in stock',
           portions: 15,
@@ -34,7 +36,7 @@ const InventoryLayout = () => {
           name: "Chicken Suya",
           image: "/placeholder.svg?height=60&width=60",
           category: "Protein",
-          price: "₦ 3,200",
+          price: `${theme.currency.symbol} 3,200`,
           recommended: true,
           status: 'unavailable',
           portions: 0,
@@ -93,6 +95,17 @@ const InventoryLayout = () => {
         });
     };
 
+    const getStatusConfig = (status: string) => {
+        switch (status) {
+            case 'available':
+                return theme.status.available;
+            case 'low in stock':
+                return theme.status.lowStock;
+            default:
+                return theme.status.unavailable;
+        }
+    };
+
     const inventoryColumns: ColumnDefinition[] = [
         {
             id: "id",
@@ -106,7 +119,7 @@ const InventoryLayout = () => {
             cell: (info) => (
                 <div className="flex items-center gap-3">
                     <Image
-                        src="/asun.png"
+                        src={theme.brand.logo}
                         alt={info.name}
                         width={60}
                         height={60}
@@ -158,21 +171,22 @@ const InventoryLayout = () => {
             id: "status",
             header: "Status",
             accessorKey: "status",
-            cell: (info) => (
-                <span className={`px-2 py-1 rounded-full text-xs ${
-                    info.status === 'available' ? 'bg-green-100 text-green-800' :
-                    info.status === 'low in stock' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-red-100 text-red-800'
-                }`}>
-                    {info.status}
-                </span>
-            ),
+            cell: (info) => {
+                const statusConfig = getStatusConfig(info.status);
+                return (
+                    <span className={`px-2 py-1 rounded-full text-xs ${statusConfig.color}`}>
+                        {statusConfig.text}
+                    </span>
+                );
+            },
         },
     ];
 
     return (
         <ControlLayout>
-            <h2 className="text-xl font-semibold mb-4">Inventory Management</h2>
+            <h2 className="text-xl font-semibold mb-4" style={{ color: theme.brand.textColor }}>
+                {theme.brand.name} - Inventory Management
+            </h2>
             <div className="container mx-auto p-6">
                 <div className="flex justify-between items-center my-8">
                     <FilterBar
