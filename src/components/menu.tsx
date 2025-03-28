@@ -41,7 +41,7 @@ const FoodMenu: React.FC<FoodMenuProps> = ({ items, onAddToCart }) => {
                 <span className="text-xs text-gray-500 ml-1">({item.reviews} reviews)</span>
               </div>
             </div>
-            <div className="flex justify-between items-center mt-2">
+            <div className="flex flex-col items-center mt-2">
               <span className="font-bold">${item.price}</span>
               <button 
                 onClick={() => onAddToCart(item)}

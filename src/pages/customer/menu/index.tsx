@@ -151,11 +151,7 @@ export default function Menu() {
           />
         </div>
 
-        <div className="hidden lg:block lg:w-[400px] lg:flex-shrink-0">
-          <div className="lg:sticky lg:top-8">
-            <Cart onCheckout={handleCheckout} />
-          </div>
-        </div>
+       
       </div>
     </CustomerLayout>
   );
