@@ -19,8 +19,10 @@ interface CartItem extends FoodItem {
 
 interface CartContextType {
   items: CartItem[];
+  orderComment: string;
   addItem: (item: FoodItem) => void;
   updateQuantity: (id: number, quantity: number) => void;
+  updateOrderComment: (comment: string) => void;
   clearCart: () => void;
   subtotal: number;
   tax: number;
@@ -31,6 +33,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [orderComment, setOrderComment] = useState('');
 
   // Load cart items from localStorage on mount
   useEffect(() => {
@@ -70,6 +73,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const updateOrderComment = (comment: string) => {
+    setOrderComment(comment);
+  };
+
   const clearCart = () => {
     setItems([]);
     localStorage.removeItem('cartItems');
@@ -83,8 +90,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     <CartContext.Provider
       value={{
         items,
+        orderComment,
         addItem,
         updateQuantity,
+        updateOrderComment,
         clearCart,
         subtotal,
         tax,

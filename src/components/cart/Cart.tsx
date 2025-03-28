@@ -1,12 +1,13 @@
 import { IconAdd, IconTrash } from '../icons/Icons';
 import { useCart } from '../../contexts/CartContext';
+import { Input } from '../ui/input';
 
 interface CartProps {
   onCheckout: () => void;
 }
 
 export default function Cart({ onCheckout }: CartProps) {
-  const { items, updateQuantity, subtotal, tax, total } = useCart();
+  const { items, updateQuantity, orderComment, updateOrderComment, subtotal, tax, total } = useCart();
 
   if (items.length === 0) {
     return (
@@ -27,9 +28,6 @@ export default function Cart({ onCheckout }: CartProps) {
 
       {/* Cart Items */}
       <div className="space-y-4 mb-6">
-        <div className="flex items-center justify-between">
-          
-        </div>
         {items.map((item) => (
           <div key={item.id} className="flex items-center gap-4">
             {/* Item Image */}
@@ -42,17 +40,17 @@ export default function Cart({ onCheckout }: CartProps) {
             </div>
 
             {/* Item Details */}
-            <div className="flex-1 min-w-0"> {/* Added min-w-0 to prevent text overflow */}
+            <div className="flex-1 min-w-0">
               <h3 className="text-gray-900 font-medium truncate">{item.name}</h3>
               <p className="text-[#B2151B] font-semibold">${item.price}</p>
             </div>
 
-            {/* Add availability check */}
+            {/* Availability check */}
             {!item.isAvailable && (
               <span className="text-red-500 text-sm">Currently unavailable</span>
             )}
 
-            {/* Only show quantity controls if item is available */}
+            {/* Quantity controls */}
             {item.isAvailable && (
               <div className="flex items-center gap-2">
                 <button
@@ -79,7 +77,23 @@ export default function Cart({ onCheckout }: CartProps) {
       </div>
 
       {/* Cart Summary */}
-      <div className="border-t border-gray-100 pt-4 space-y-2">
+      <div className="border-t border-gray-100 pt-4 space-y-4">
+        {/* Order Comment */}
+        <div className="space-y-2">
+          <label htmlFor="orderComment" className="text-sm text-gray-600 font-medium">
+            Special Requests / Notes
+          </label>
+          <textarea
+            id="orderComment"
+            placeholder="Any special requests for your order? (allergies, preferences, etc.)"
+            value={orderComment}
+            onChange={(e) => updateOrderComment(e.target.value)}
+            className="w-full min-h-[80px] p-3 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:border-[#B2151B] focus:ring-[#B2151B]"
+            maxLength={250}
+          />
+        </div>
+
+        {/* Existing summary items */}
         <div className="flex justify-between text-gray-500">
           <span>Subtotal</span>
           <span>${subtotal.toFixed(2)}</span>
@@ -87,6 +101,10 @@ export default function Cart({ onCheckout }: CartProps) {
         <div className="flex justify-between text-gray-500">
           <span>Tax (10%)</span>
           <span>${tax.toFixed(2)}</span>
+        </div>
+        <div className="flex justify-between text-gray-500">
+          <span>Pack</span>
+          <span>+2 ($300)</span>
         </div>
         <div className="flex justify-between text-gray-900 font-bold text-lg">
           <span>Total</span>
