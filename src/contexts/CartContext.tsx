@@ -1,33 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
-interface FoodItem {
-  id: number;
-  name: string;
-  price: number;
-  rating: number;
-  reviews: number;
-  image: string;
-  category: string;
-  isAvailable: boolean;
-}
-
-interface CartItem extends FoodItem {
-  quantity: number;
-}
-
-interface CartContextType {
-  items: CartItem[];
-  orderComment: string;
-  addItem: (item: FoodItem) => void;
-  updateQuantity: (id: number, quantity: number) => void;
-  updateOrderComment: (comment: string) => void;
-  clearCart: () => void;
-  subtotal: number;
-  tax: number;
-  total: number;
-}
+import { CartItem, CartContextType, FoodItem } from '@/types/cart';
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
