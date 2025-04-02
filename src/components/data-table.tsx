@@ -115,7 +115,20 @@ export function DataTable({
     setIsStatusModalOpen(false)
   }
 
-  const getDetailTitle = () => {
+ const getDetailTitle = () => {
+    if (!selectedItem) return "";
+
+    if (detailView.title) return detailView.title(selectedItem);
+
+    const titles = {
+        orders: `Order #${selectedItem[detailView.idField || "orderId"]}`,
+        customers: `Customer: ${selectedItem.name || selectedItem.fullName}`,
+        riders: `Rider: ${selectedItem.name || selectedItem.fullName}`,
+        inventory: `Product: ${selectedItem.name}`,
+    };
+
+    return titles[tableType] || `Details #${selectedItem.id || ""}`;
+};
     if (!selectedItem) return ""
     if (detailView.title) return detailView.title(selectedItem)
 
@@ -295,11 +308,11 @@ export function DataTable({
                       <SelectValue placeholder="Select a rider" />
                     </SelectTrigger>
                     <SelectContent>
-                      {riders.map((rider) => (
-                        <SelectItem key={rider.id} value={rider.id}>
-                          {rider.name}
-                        </SelectItem>
-                      ))}
+          {riders.map(({ id, name }) => (
+              <SelectItem key={id} value={id}>
+                {name}
+              </SelectItem>
+            ))}
                     </SelectContent>
                   </Select>
                 </div>

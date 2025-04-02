@@ -95,7 +95,7 @@ export default function CustomerLayout({ children }: MainLayoutProps) {
           </Link>
           <button onClick={() => setIsCartOpen(true)} className="p-3 text-gray-400 hover:text-[#B2151B] flex flex-col items-center relative">
             <IconShoppingCart size={24} />
-            {items.length > 0 && (
+            {items?.length && (
               <span className="absolute top-2 right-2 bg-[#B2151B] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                 {items.length}
               </span>
