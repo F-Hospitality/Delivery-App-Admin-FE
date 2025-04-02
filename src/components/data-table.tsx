@@ -341,11 +341,11 @@ export function DataTable({
                       <SelectValue placeholder="Select a rider" />
                     </SelectTrigger>
                     <SelectContent>
-                      {riders.map((rider) => (
-                        <SelectItem key={rider.id} value={rider.id}>
-                          {rider.name}
-                        </SelectItem>
-                      ))}
+          {riders.map(({ id, name }) => (
+              <SelectItem key={id} value={id}>
+                {name}
+              </SelectItem>
+            ))}
                     </SelectContent>
                   </Select>
                 </div>
