@@ -148,7 +148,20 @@ export function DataTable({
     setIsStatusModalOpen(false)
   }
 
-  const getDetailTitle = () => {
+ const getDetailTitle = () => {
+    if (!selectedItem) return "";
+
+    if (detailView.title) return detailView.title(selectedItem);
+
+    const titles = {
+        orders: `Order #${selectedItem[detailView.idField || "orderId"]}`,
+        customers: `Customer: ${selectedItem.name || selectedItem.fullName}`,
+        riders: `Rider: ${selectedItem.name || selectedItem.fullName}`,
+        inventory: `Product: ${selectedItem.name}`,
+    };
+
+    return titles[tableType] || `Details #${selectedItem.id || ""}`;
+};
     if (!selectedItem) return ""
     if (detailView.title) return detailView.title(selectedItem)
 
