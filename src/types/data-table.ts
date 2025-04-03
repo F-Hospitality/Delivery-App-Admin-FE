@@ -12,11 +12,13 @@ export type ColumnDefinition = {
     title?: (item: any) => string
     content?: (item: any) => React.ReactNode
   }
+
+  export type TableType = 'orders' | 'customers' | 'riders' | 'inventory' | 'default'
   
-    export type DataTableProps = {
+  export type DataTableProps = {
     data: any[]
     columns: ColumnDefinition[]
-    tableType?: string
+    tableType?: TableType
     detailView?: DetailViewConfig
     isControl?: boolean
     actions?: {

@@ -11,7 +11,7 @@ import Image from "next/image"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { DataTableProps } from "@/types/data-table"
+import { DataTableProps, DetailViewConfig, TableType } from "@/types/data-table"
 
 
 export function DataTable({
@@ -115,31 +115,20 @@ export function DataTable({
     setIsStatusModalOpen(false)
   }
 
- const getDetailTitle = () => {
+  const getDetailTitle = () => {
     if (!selectedItem) return "";
-
     if (detailView.title) return detailView.title(selectedItem);
 
-    const titles = {
-        orders: `Order #${selectedItem[detailView.idField || "orderId"]}`,
-        customers: `Customer: ${selectedItem.name || selectedItem.fullName}`,
-        riders: `Rider: ${selectedItem.name || selectedItem.fullName}`,
-        inventory: `Product: ${selectedItem.name}`,
+    const titles: Record<TableType, string> = {
+      orders: `Order #${selectedItem[detailView.idField || "orderId"]}`,
+      customers: `Customer: ${selectedItem.name || selectedItem.fullName}`,
+      riders: `Rider: ${selectedItem.name || selectedItem.fullName}`,
+      inventory: `Product: ${selectedItem.name}`,
+      default: `Details #${selectedItem.id || ""}`
     };
 
-    return titles[tableType] || `Details #${selectedItem.id || ""}`;
-};
-    if (!selectedItem) return ""
-    if (detailView.title) return detailView.title(selectedItem)
-
-    // Default titles based on table type
-    if (tableType === "orders") return `Order #${selectedItem[detailView.idField || "orderId"]}`
-    if (tableType === "customers") return `Customer: ${selectedItem.name || selectedItem.fullName}`
-    if (tableType === "riders") return `Rider: ${selectedItem.name || selectedItem.fullName}`
-    if (tableType === "inventory") return `Product: ${selectedItem.name}`
-
-    return `Details #${selectedItem.id || ""}`
-  }
+    return titles[tableType || 'default'];
+  };
 
   return (
     <>
@@ -377,7 +366,7 @@ export function DataTable({
   )
 }
 
-function DefaultDetailContent({ item, tableType }: { item: any; tableType: string }) {
+function DefaultDetailContent({ item, tableType }: { item: any; tableType: TableType }) {
   if (tableType === "orders") {
     return (
       <div className="space-y-4">
