@@ -1,5 +1,5 @@
 import ControlLayout from "@/components/control-layout";
-import {DataTable, DetailViewConfig, type ColumnDefinition} from "@/components/data-table";
+import {DetailViewConfig, ColumnDefinition} from "@/types/data-table";
 import Image from "next/image";
 import { useState } from "react"
 import FilterBar, { DateRange } from '@/components/filter-bar'
@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { useTheme } from "@/contexts/ThemeContext"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
-
+import { DataTable } from "@/components/data-table"
 const InventoryLayout = () => {
     const { theme } = useTheme();
     const [inventoryData, setInventoryData] = useState([

@@ -58,34 +58,3 @@ export const defaultTheme: ThemeConfig = {
     },
   },
 };
-
-// Example whitelabeled theme
-export const whitelabelTheme: ThemeConfig = {
-  brand: {
-    name: "FoodExpress",
-    logo: "/foodexpress-logo.png",
-    primaryColor: "#2E7D32",
-    secondaryColor: "#4CAF50",
-    accentColor: "#FFC107",
-    textColor: "#212121",
-    backgroundColor: "#FFFFFF",
-  },
-  currency: {
-    symbol: "$",
-    position: "before",
-  },
-  status: {
-    available: {
-      color: "bg-emerald-100 text-emerald-800",
-      text: "in stock",
-    },
-    lowStock: {
-      color: "bg-amber-100 text-amber-800",
-      text: "running low",
-    },
-    unavailable: {
-      color: "bg-rose-100 text-rose-800",
-      text: "out of stock",
-    },
-  },
-}; 

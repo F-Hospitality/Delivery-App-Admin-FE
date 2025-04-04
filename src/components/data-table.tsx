@@ -11,41 +11,8 @@ import Image from "next/image"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DataTableProps, DetailViewConfig, TableType } from "@/types/data-table"
 
-export type ColumnDefinition = {
-  id: string
-  header: string
-  accessorKey: string
-  cell?: (info: any) => React.ReactNode
-  enableSorting?: boolean
-}
-
-export type DetailViewConfig = {
-  enabled: boolean
-  idField?: string
-  title?: (item: any) => string
-  content?: (item: any) => React.ReactNode
-}
-
-type DataTableProps = {
-  data: any[]
-  columns: ColumnDefinition[]
-  tableType?: string
-  detailView?: DetailViewConfig
-  isControl?: boolean
-  actions?: {
-    view?: boolean
-    edit?: boolean
-    delete?: boolean
-    custom?: (item: any) => React.ReactNode
-  }
-  onView?: (item: any) => void
-  onEdit?: (item: any) => void
-  onDelete?: (item: any) => void
-  onRowClick?: (item: any) => void
-  onAssignOrder?: (item: any, riderId: string) => void
-  onChangeOrderStatus?: (item: any, status: string) => void
-}
 
 export function DataTable({
   data,
@@ -149,17 +116,19 @@ export function DataTable({
   }
 
   const getDetailTitle = () => {
-    if (!selectedItem) return ""
-    if (detailView.title) return detailView.title(selectedItem)
+    if (!selectedItem) return "";
+    if (detailView.title) return detailView.title(selectedItem);
 
-    // Default titles based on table type
-    if (tableType === "orders") return `Order #${selectedItem[detailView.idField || "orderId"]}`
-    if (tableType === "customers") return `Customer: ${selectedItem.name || selectedItem.fullName}`
-    if (tableType === "riders") return `Rider: ${selectedItem.name || selectedItem.fullName}`
-    if (tableType === "inventory") return `Product: ${selectedItem.name}`
+    const titles: Record<TableType, string> = {
+      orders: `Order #${selectedItem[detailView.idField || "orderId"]}`,
+      customers: `Customer: ${selectedItem.name || selectedItem.fullName}`,
+      riders: `Rider: ${selectedItem.name || selectedItem.fullName}`,
+      inventory: `Product: ${selectedItem.name}`,
+      default: `Details #${selectedItem.id || ""}`
+    };
 
-    return `Details #${selectedItem.id || ""}`
-  }
+    return titles[tableType || 'default'];
+  };
 
   return (
     <>
@@ -328,11 +297,11 @@ export function DataTable({
                       <SelectValue placeholder="Select a rider" />
                     </SelectTrigger>
                     <SelectContent>
-                      {riders.map((rider) => (
-                        <SelectItem key={rider.id} value={rider.id}>
-                          {rider.name}
-                        </SelectItem>
-                      ))}
+          {riders.map(({ id, name }) => (
+              <SelectItem key={id} value={id}>
+                {name}
+              </SelectItem>
+            ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -397,7 +366,7 @@ export function DataTable({
   )
 }
 
-function DefaultDetailContent({ item, tableType }: { item: any; tableType: string }) {
+function DefaultDetailContent({ item, tableType }: { item: any; tableType: TableType }) {
   if (tableType === "orders") {
     return (
       <div className="space-y-4">

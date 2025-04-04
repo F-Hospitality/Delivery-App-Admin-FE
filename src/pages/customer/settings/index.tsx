@@ -2,19 +2,7 @@
 
 import CustomerLayout from '@/components/customer-layout';
 import { useState } from 'react';
-
-interface UserProfile {
-  name: string;
-  email: string;
-  phone: string;
-  defaultAddress: string;
-  notifications: {
-    orderUpdates: boolean;
-    promotions: boolean;
-    newsletter: boolean;
-    itemAvailability: boolean;
-  };
-}
+import { UserProfile } from '@/types/user';
 
 export default function Settings() {
   const [profile, setProfile] = useState<UserProfile>({
